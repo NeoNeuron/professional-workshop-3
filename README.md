@@ -4,7 +4,7 @@
 
 **课程目标**： 介绍传统与新兴的计算神经科学相关的研究工具，其相关的发展现状，以及如何运用他们帮助我们更好的理解大脑。课程主要正对模型选取、模型搭建，模型评价，以及理解模型如何与我们关注的生物问题建立联系。
 
-**课程形式**：10周课程+Project大作业
+**课程形式**：10周课程+小组Project大作业
 
 - 20 mins - Intro Lecture
 - 1 hour - In-class coding and peer discussion
@@ -13,7 +13,7 @@
 **课程成绩**
 
 - 30% - 平时作业 
-- 50% - Project 大作业 (Presensation + Report)
+- 50% - Project 大作业 (Project Report)
 - 20% - 平时出勤与期末反馈
 
 **注意事项**
@@ -52,17 +52,15 @@
 
 * [Week 0: Python Workshop](#week-0-python-workshop)
 * [Week 1: Model Types](#week-1-model-types)
-* [Week 2: Modeling Practice](#week-2-modeling-practice)
-* [Week 3: Model Fitting](#week-3-model-fitting)
-* [Week 4: Machine Learning: GLM & Deep Learning 1](#week-4-machine-learning-glm-&-deep-learning-1)
-* [Week 5: Dimensionality Reduction](#week-5-dimensionality-reduction)
-* [Week 6: Real Neurons](#week-6-real-neurons)
-* [Week 7: Dynamical Systems](#week-7-dynamical-systems)
+* [Week 2: Single Neuron Models](#week-2-single-neuron-models)
+* [Week 3: Dynamical Networks](#week-3-dynamical-networks)
+* [Week 4: Model Practice](#week-4-model-practice)
+* [Week 5: Model Fitting](#week-5-model-fitting)
+* [Week 6: Dimensionality Reduction](#week-6-dimensionality-reduction)
+* [Week 7: Bayesian Statistics](#week-7-bayesian-statistics)
 * [Week 8: Network Causality](#week-8-network-causality)
-* [Week 9: Bayesian Statistics](#week-9-bayesian-statistics)
-* [Week 10: Decision Making](#week-10-decision-making)
-* [Bonus: Optimal Control](#bonus-1-optimal-control)
-* [Bonus: Reinforcement Learning](#bonus-2-reinforcement-learning)
+* [Week 9: Decision Making](#week-9-decision-making)
+* [Week 10: CNN and Autoencoder](#week-10-cnn-and-autoencoder)
 
 
 ### Week 0: Python Workshop
@@ -73,160 +71,115 @@
 
 **Description:** Introduce different example model types (Marr 1-3, what/how/why) and the kinds of questions they can answer. Realize how different models map onto different datasets.
 
-| Lecture   | Details                                        |
-|-----------|------------------------------------------------|
-| Intro     | Model classifications                          |
-| Tutorials | "What"/"How"/"Why" models                      |
-| Outro     | Recap session, The role of models in discovery |
+| Lecture   | Details                                                         |
+|-----------|-----------------------------------------------------------------|
+| Intro     | Model classifications, and merits of different type of models.  |
+| Tutorials | "What"/"How"/"Why" models                                       |
+| Outro     | Recap session, The role of models in discovery.                 |
 
 ----
 
-### Week 2: Modeling Practice
-
-**Description:** Introduction to the process of building models.
-
-| Lecture   | Details                                                 |
-| --------- | ------------------------------------------------------- |
-| Intro     | How to approach modeling                                |
-| Tutorials | Framing the question, model implementation and testing. |
-| Outro     | Recap session, the modeling process                     |
-
-
-----
-
-### Week 3: Model Fitting
-
-**Description:** Fit models to data, quantify uncertainty, compare models
-
-| Lecture   | Details                                                      |
-| --------- | ------------------------------------------------------------ |
-| Intro     | Why and how to fit models                                    |
-| Tutorials | Linear regression. Get error bars with bootstrapping. Multi-dimensional linear regression and polynomial regression, and compare models, cross-validation, hyperparameters. |
-| Outro     | Recap session, Critical evaluation of model fitting          |
-
-
-----
-
-### Week 4: Machine Learning: GLM & Deep Learning 1
-
-**Description:** Introduction to machine learning. The commonly used approaches, how to avoid false positives, how to do it well. The concept of ANNs, how to train them,what they are made out of, convnets, and how to fit them to brains
-
-| Lecture   | Details                                                      |
-| --------- | ------------------------------------------------------------ |
-| Intro     | How to predict neuronal activity with given data. Deep Learning 101. Predicting neuronal data with DL. |
-| Tutorials | Introduction to GLMs and predicting neural responses. Logistic regression, regularization, and decoding neural activity. Pytorch intro & Structure of ANN and how to train it.  CNN, Fit to brain (RSA - represenatational similarity analysis) |
-| Outro     | Recap session, Promises and pitfalls of ML for Neuroscience  |
-
-
-----
-### Week 5: Dimensionality Reduction
-
-**Description:** Concept of dimensionality reduction, ways of doing it, what it means. Dimension reduction using deep learning, and autoencoders for structure discovery.
-
-|    Lecture         |    Details                                                            |
-|--------------------|-----------------------------------------------------------------------|
-|    Intro           |    Manifolds to understand. DL for structure.                         |
-|    Tutorials I     |    PCA: orthonormal basis, eigenvalues. MNIST with PCA, MNIST with t-SNE. |
-|    Tutorials II		 |    Variational autoencorders and uses in Neuroscience                 |
-|    Outro           |    Recap session, The link between high-dimensional brain signals and low-dimensional behavior. Application of DL autoencoders    |
-
-
-----
-
-### Week 6: Real Neurons
+### Week 2: Single Neuron Models
 
 **Description:** The things neurons are made of, channels, morphologies, neuromodulators, and plasticity
 
-|    Lecture         |    Details                                                            |
-|--------------------|-----------------------------------------------------------------------|
-|    Intro           |    Real neurons                                                       |
-|    Tutorials I     |    Reduced neuron models and transfer of synchrony                    |
-|    Tutorials II    |    Short-term plasticity of synapses and Hebbian plasticity & STDP    |
-|    Outro           |    Recap session, A variety of neuron models                          |
-
+| Lecture   |    Details                                                            |
+| ----------| --------------------------------------------------------------------- |
+| Intro     |    Introduction to HH neuron model.                                   |
+| Tutorials |    Reduced neuron models (LIF), synapses dynamics, and plasticity.    |
+| Outro     |    Recap session, A variety of neuron models                          |
 
 ----
 
-### Week 7: Dynamical Systems
+### Week 3: Dynamical Networks
 
 **Description:** How to make estimates over time, how the brain does it. How single neurons create population dynamics
 
-|    Lecture         |    Details                                                            |
-|--------------------|-----------------------------------------------------------------------|
-|    Intro           |    Mechanistic models of different types of brain activity            |
-|    Tutorials I     |    Linear systems theory I (ND deterministic) and Markov process      |
-|    Tutorials II    |    Linear systems theory II (1D stochastic = OU process; ND stocastic = AR(1)) and State space model |
-|    Tutorials III   |    2D dynamical systems, Wilson-Cowen model (coarse-grained), oscillations & synchrony |
-|    Tutorials IV    |    Attractors & local linearization around fixed points, Balanced Amplification & Inhibition-stabilized network  |
-|    Outro           |    Recap session, Linear systems rule the world. A theory of the whole brain.   |
+| Lecture   | Details                                                      |
+| --------- | ------------------------------------------------------------ |
+| Intro     | Phase plane analysis of HH dynamics.                         |
+| Tutorials | Linear systems theory and Markov process.<br>2D dynamical systems, Wilson-Cowen model (coarse-grained), oscillations & synchrony. <br>Attractors & local linearization around fixed points, Balanced Amplification & Inhibition-stabilized network. |
+| Outro     | Recap session, Linear systems rule the world. A theory of the whole brain. |
+
+----
+
+### Week 4: Modeling Practice
+
+**Description:** Introduction to the process of building models. Project introduction.
+
+| Lecture | Details                                                      |
+| ------- | ------------------------------------------------------------ |
+| Keynote | Compressive Sensing in spiking neuronal networks, a demonstration of the modeling process. |
+
+----
+
+### Week 5: Model Fitting
+
+**Description:** Fit models to data, quantify uncertainty, compare models. Introduction to machine learning. The commonly used approaches, how to avoid false positives, how to do it well. 
+
+| Lecture   | Details                                                      |
+| --------- | ------------------------------------------------------------ |
+| Intro     | Why and how to fit models. How to predict neuronal activity with given data. |
+| Tutorials | Linear regression. Get error bars with bootstrapping. Multi-dimensional linear regression and polynomial regression, and compare models, cross-validation, hyperparameters.<br>Introduction to GLMs and predicting neural responses. <br/>Logistic regression, regularization, and decoding neural activity. |
+| Outro     | Recap session, Critical evaluation of model fitting          |
+
+----
+### Week 6: Dimensionality Reduction
+
+**Description:** Concept of dimensionality reduction, ways of doing it, what it means.
+
+| Lecture   | Details                                                      |
+| --------- | ------------------------------------------------------------ |
+| Intro     | Manifolds to understand.                                     |
+| Tutorials | PCA: orthonormal basis, eigenvalues. MNIST with PCA, MNIST with t-SNE. |
+| Outro     | Recap session, The link between high-dimensional brain signals and low-dimensional behavior. |
+
+----
+
+### Week 7: Bayesian Statistics
+
+**Description** Bayesian statistics, modeling of behavior, modeling of neural data, quantifying information
+
+| Lecture   | Details                                                      |
+| --------- | ------------------------------------------------------------ |
+| Intro     | Uncertainty in signal detection theory of visual search.     |
+| Tutorials | Bayes rule: cue combination and marginalization. Bayesian Decision Theory & Causal inference. |
+| Outro     | Recap session, Advanced Bayesian methods                     |
 
 ----
 ### Week 8: Network Causality
 
 **Description:** Ways of discovering causal relations, ways of estimating networks, what we can do with networks
 
-|    Lecture         |    Details                                                            |
-|--------------------|-----------------------------------------------------------------------|
-|    Intro           |    Causality - different views                                        |
-|    Tutorials I     |    Pittfalls of Granger and Centrality                                |
-|    Tutorials II    |    Instrumental Variables and interventions                           |
-|    Outro           |    Recap session, Ladders of causality                                |
+| Lecture   | Details                                                      |
+| --------- | ------------------------------------------------------------ |
+| Intro     | Causality - tools for causal inference.                      |
+| Tutorials | Pittfalls of Granger and Centrality. Instrumental Variables and interventions |
+| Outro     | Recap session, Ladders of causality                          |
+
+----
+
+### Week 9: Decision Making
+
+**Description:** How we can make decisions when information comes in over time.
+
+| Lecture   | Details                                                      |
+| --------- | ------------------------------------------------------------ |
+| Intro     | We need to decide stuff                                      |
+| Tutorials | Information theory, Sequential Probability Ratio Test (SPRT). <br>Hidden Markov Model inference (DDM), Kalman filter |
+| Outro     | Recap session, Decisions, decisions, decisions ...           |
 
 
 ----
 
-### Week 9: Bayesian Statistics
+### Week 10: CNN and Autoencoder
 
-**Description** Bayesian statistics, modeling of behavior, modeling of neural data, quantifying information
+**Description:** The concept of ANNs, how to train them,what they are made out of, convnets, and how to fit them to brains. Dimension reduction using deep learning, and autoencoders for structure discovery.
 
-|    Lecture         |    Details                                                            |
-|--------------------|-----------------------------------------------------------------------|
-|    Intro           |    Uncertainty                                                        |
-|    Tutorials I     |    Bayes rule: cue combination and marginalization                    |
-|    Tutorials II    |    Bayesian Decision Theory & Causal inference                        |
-|    Outro           |    Recap session, Advanced Bayesian methods                           |
-
-
-----
-
-### Week 10: Decision Making
-
-**Description:** How we can make decisions when information comes in over time
-
-|    Lecture         |    Details                                                            |
-|--------------------|-----------------------------------------------------------------------|
-|    Intro           |    We need to decide stuff                                            |
-|    Tutorials I     |    Information theory, Sequential Probability Ratio Test (SPRT)       |
-|    Tutorials II    |    Hidden Markov Model inference (DDM), Kalman filter                 |
-|    Outro           |    Recap session, Decisions, decisions, decisions ...                 |
-
-
-----
-
-### Bonus 1: Optimal Control
-
-**Description:** We need to move gain info and reach goals
-
-|    Lecture         |    Details                                                            |
-|--------------------|-----------------------------------------------------------------------|
-|    Intro           |    We want to control our actions...                                  |
-|    Tutorials I     |    Expected utility / Cost, Markov decision process (MDP)             |
-|    Tutorials II    |    LQG control (MDP for linear systems), Motor control (signal-dependent noise, time cost, ...) |
-|    Outro           |    Recap session, Advanced motor control                              |
-
-
-----
-
-### Bonus 2: Reinforcement Learning
-
-**Description:** The setting of reinforcement learning and how it approximates the real world, behavior, and potential brain implementations
-
-|    Lecture         |    Details                                                            |
-|--------------------|-----------------------------------------------------------------------|
-|    Intro           |    We want reward now and in the future...                            |
-|    Tutorials I     |    Predicting rewards, learning to act in one-step tasks, Exploration vs exploitation |
-|    Tutorials II    |    Learning to act in multi-step tasks, on-policy vs. off-policy control, Model-based vs model-free RL |
-|    Outro           |    Recap session, RL and the brain                                    |
-
+| Lecture   | Details                                                      |
+| --------- | ------------------------------------------------------------ |
+| Intro     | Deep Learning 101. Predicting neuronal data with DL. DL for structure. |
+| Tutorials | Pytorch intro & Structure of ANN and how to train it. <br>CNN, Fit to brain (RSA - represenatational similarity analysis).<br>Variational autoencorders and uses in Neuroscience. |
+| Outro     | Recap session, Promises and pitfalls of ML for Neuroscience. Application of DL autoencoders |
 
 ----
