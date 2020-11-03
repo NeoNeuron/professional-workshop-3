@@ -53,7 +53,7 @@
 * [Week 0: Python Workshop](#week-0-python-workshop)
 * [Week 1: Model Types](#week-1-model-types)
 * [Week 2: Single Neuron Models](#week-2-single-neuron-models)
-* [Week 3: Dynamical Networks](#week-3-dynamical-networks)
+* [Week 3: Dynamical System](#week-3-dynamical-system)
 * [Week 4: Model Practice](#week-4-model-practice)
 * [Week 5: Model Fitting](#week-5-model-fitting)
 * [Week 6: Dimensionality Reduction](#week-6-dimensionality-reduction)
@@ -91,14 +91,14 @@
 
 ----
 
-### Week 3: Dynamical Networks
+### Week 3: Dynamical System
 
 **Description:** How to make estimates over time, how the brain does it. How single neurons create population dynamics
 
 | Lecture   | Details                                                      |
 | --------- | ------------------------------------------------------------ |
 | Intro     | Phase plane analysis of HH dynamics.                         |
-| Tutorials | Linear systems theory and Markov process.<br>2D dynamical systems, Wilson-Cowen model (coarse-grained), oscillations & synchrony. <br>Attractors & local linearization around fixed points, Balanced Amplification & Inhibition-stabilized network. |
+| Tutorials | Linear systems theory, 2D dynamical systems, Wilson-Cowen model (coarse-grained), oscillations & synchrony. <br>**Bonus:** Attractors & local linearization around fixed points, Balanced Amplification & Inhibition-stabilized network. |
 | Outro     | Recap session, Linear systems rule the world. A theory of the whole brain. |
 
 ----
