@@ -1,0 +1,78 @@
+// plot the dendritic k-profile //
+
+/*	trunk: 28  branch: 6 	*/
+
+load_file("preload_files.hoc")
+
+objref gaba, sl, s2, s 
+
+I_loc = 6		//to be set before shape plot
+
+proc main() { local i
+	
+	init()
+	ropen("volE.dat")
+    //ropen("vol.dat")
+		for i = 0,198 dend[i] {
+  				insert ShuntingFactor
+  				kk_ShuntingFactor = fscan()
+		}
+	ropen() 
+	 
+	access soma
+	distance()
+	   		                                       
+	dend[I_loc] {
+ 
+	print distance(0.5)
+	gaba= new GABAa()
+	gaba.loc(0.5)
+
+ }
+ 
+//sl = new SectionList()
+//sl.wholetree()
+ s = new PlotShape(full_tree)
+// s = new PlotShape(stratum_radiatum)
+
+s.colormap(15,1)
+s.colormap(0 ,    0,     0,   255)
+s.colormap(1 ,    0,    60,   255)
+s.colormap(2 ,    0,   120,   255)
+s.colormap(3 ,    0,   180,   255)
+s.colormap(4 ,    0,   255,   255)
+s.colormap(5 ,  102,   255,   153)
+s.colormap(6 ,  153,   255,   102)
+s.colormap(7 ,  204,   255,    51)
+s.colormap(8 ,  255,   215,     0)
+s.colormap(9 ,  255,   185,     0)
+s.colormap(10,  255,   155,     0)
+s.colormap(11,  255,   125,     0)
+s.colormap(12,  255,    95,     0)
+s.colormap(13,  255,    65,     0)
+s.colormap(14,  255,     0,     0)
+
+s.variable("kk_ShuntingFactor")
+s.exec_menu("Shape Plot")
+
+s.scale(-70,-57)//E
+//s.scale(-74,-70)//I
+
+
+fast_flush_list.append(s)
+s.show(0)
+s.rotate(200,-350,0,0,0,3.4)
+s.printfile("branch.eps")
+
+s2= new Shape()
+//s2.observe(full_tree)
+s2.observe(full_tree)
+s2.point_mark(gaba,2)
+s2.rotate(200,-350,0,0,0,3.4)
+s2.exec_menu("Show Diam")
+
+//s2.exec_menu("200% Zoom In")
+//s.rotate(200,-450,0,0,0,3.4)
+}
+
+main()

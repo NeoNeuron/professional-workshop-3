@@ -1,0 +1,6 @@
+objref stratum_radiatum
+stratum_radiatum = new SectionList()
+
+for i = 0,78 dend[i] {
+  stratum_radiatum.append()
+}

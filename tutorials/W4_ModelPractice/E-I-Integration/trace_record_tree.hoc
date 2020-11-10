@@ -1,0 +1,178 @@
+//record traces of EPSP, IPSP, SUM, Linear SUM and Residue
+
+/*apical trunk list: 0(41.50)-2(94.47)-14(122.82)-28(151.46)-30(179.70)-32(195.53)-40(201.79)-
+	-44(227.96)-52(254.45)-60(262.17)-66(268.27)-72(283.71)-74(311.14)-78(343.59)*/
+
+load_file("preload_files.hoc")
+
+cvode.active(0)
+dt=0.1
+tstop=100
+
+I_loc=72
+E_loc=78
+
+objectvar b, ampa, nmda, gabaa, gabab
+
+objref stim_gaba, stim_glut, T
+
+access soma
+	distance()
+	
+	stim_gaba = new NetStim1(0.5)
+	stim_gaba.number=1
+	stim_glut = new NetStim1(0.5)
+	stim_glut.number=1
+                               
+proc step() {	local i
+	fadvance()
+		if(ngraph!=0) {
+			for i=0, ngraph-1{
+				g[i].plot(t)
+				g[i].flush()
+				doNotify()
+			}
+		}
+}
+
+proc run() { local j
+	init()
+	if(ngraph!=0) {
+		for j=0, ngraph-1{
+				g[j].begin()
+		}
+	}	
+	while(t<tstop) {		
+	step()}	
+}
+
+objref savdataEPSP,savdataIPSP,savdataSSP, rect
+
+rect=new Vector()
+rect.record(&t)
+
+num=199
+objref vEPSP,vIPSP,vSSP
+
+vEPSP = new List()
+vIPSP = new List()
+vSSP = new List() 
+
+for i = 0,num-1 { 
+	vEPSP.append(new Vector())
+	vEPSP.o(i).record(&dend[i].v(0.5))
+	vIPSP.append(new Vector())
+	vIPSP.o(i).record(&dend[i].v(0.5))
+	vSSP.append(new Vector())
+	vSSP.o(i).record(&dend[i].v(0.5))
+}
+
+
+strdef source_path, target_path
+
+
+
+// Result Plot //
+
+b = new HBox()
+b.intercept(1)
+
+addgraph("soma.v(0)", -75, -55)
+//addgraph("dend[prox].v(0)", -75, -55)
+//addgraph("dend[dist].v(0)", -75, -55)
+
+b.intercept(0)
+b.map()
+//morph_plot()
+
+
+			
+//print I_loc,  E_loc, gaba_gstart,	gaba_gend, ampa_gstart,	ampa_gend
+
+ dend[I_loc] {
+ 
+	print distance(0.5)
+	I_dist=distance(0.5)
+	
+	gabaa= new GABAa()
+	gabab= new GABAb()
+	gabaa.loc(0.5)
+	gabab.loc(0.5)
+	setpointer gabaa.pre, stim_gaba.y	// assign presynaptic compartment
+	setpointer gabab.pre, stim_gaba.y
+	
+	gabaa.gmax=2e-2 //0.019
+	gabab.gmax=	0//gabaa.gmax*gabab_gabaa_ratio
+	
+ }
+
+
+ dend[E_loc] {
+ 
+	print distance(0.9)
+	E_dist=distance(0.9)
+    	
+	ampa = new AMPA()
+	nmda = new NMDA()
+	ampa.loc(0.9)
+	nmda.loc(0.9)
+	setpointer ampa.pre, stim_glut.y	// assign presynaptic compartment
+	setpointer nmda.pre, stim_glut.y				
+
+ 	if(!Block_NMDA_Flag){
+ 	 		nmda_ampa_ratio = 0.6/(1+E_dist/300)
+ 	}else{
+ 	 		nmda_ampa_ratio = 0.1*0.6/(1+E_dist/300)
+ 	}
+// 	print "nmda_ampa_ratio = ", nmda_ampa_ratio	
+
+	ampa.gmax		=7e-3//0.005 //	(umho)	 maximum conductance
+	nmda.gmax   =0// ampa.gmax*nmda_ampa_ratio
+ }	
+  	
+// EPSP record	//
+	stim_gaba.start=1000
+	stim_glut.start=5
+	run()
+
+savdataEPSP = new File()                 
+sprint(target_path, "%s", "Etrace_EIpair.dat")  
+savdataEPSP.wopen(target_path)
+for i = 0,num-1 { 
+	vEPSP.o(i).printf(savdataEPSP,"%g \t")
+	}
+savdataEPSP.close()
+
+
+// IPSP record	//
+	stim_gaba.start=5
+	stim_glut.start=1000
+	run()
+
+savdataIPSP = new File()                 
+sprint(target_path, "%s", "Itrace_EIpair.dat")  
+savdataIPSP.wopen(target_path)
+for i = 0,num-1 { 
+	vIPSP.o(i).printf(savdataIPSP,"%g \t")
+	}
+savdataIPSP.close()
+
+	
+// SSP record	//
+	stim_gaba.start=5
+	stim_glut.start=5
+	run()
+  
+print "Done!\n"    
+
+savdataSSP = new File()                 
+sprint(target_path, "%s", "Strace_EIpair.dat")  
+savdataSSP.wopen(target_path)
+for i = 0,num-1 { 
+	vSSP.o(i).printf(savdataSSP,"%g \t")
+	}
+savdataSSP.close()
+
+
+
+

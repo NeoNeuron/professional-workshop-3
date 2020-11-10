@@ -1,0 +1,7 @@
+objref axon_sections
+axon_sections = new SectionList()
+
+for i = 192,198 dend[i] {
+  axon_sections.append()
+}
+
