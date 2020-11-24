@@ -54,13 +54,13 @@
 * [Week 1: Model Types](#week-1-model-types)
 * [Week 2: Single Neuron Models](#week-2-single-neuron-models)
 * [Week 3: Dynamical System](#week-3-dynamical-system)
-* [Week 4: Model Practice](#week-4-model-practice)
+* [Week 4: Model Practice 1](#week-4-model-practice-1)
 * [Week 5: Model Fitting](#week-5-model-fitting)
-* [Week 6: Dimensionality Reduction](#week-6-dimensionality-reduction)
-* [Week 7: Bayesian Statistics](#week-7-bayesian-statistics)
-* [Week 8: Network Causality](#week-8-network-causality)
-* [Week 9: Decision Making](#week-9-decision-making)
-* [Week 10: CNN and Autoencoder](#week-10-cnn-and-autoencoder)
+* [Week 6: Model Practice 2](#week-6-model-practice-2)
+* [Week 7: Dimensionality Reduction](#week-7-dimensionality-reduction)
+* [Week 8: Bayesian Statistics](#week-8-bayesian-statistics)
+* [Week 9: Network Causality](#week-9-network-causality)
+* [Week 10: CNN and Autoencoder](#week-10-cnn-and-autoencoder)
 
 
 ### Week 0: Python Workshop
@@ -103,28 +103,38 @@
 
 ----
 
-### Week 4: Modeling Practice
+### Week 4: Model Practice 1
 
-**Description:** Introduction to the process of building models. Project introduction.
+**Description:** Introduction to computational neuroscience and dendritic computation. Project introduction.
 
 | Lecture | Details                                                      |
 | ------- | ------------------------------------------------------------ |
-| Keynote | Compressive Sensing in spiking neuronal networks, a demonstration of the modeling process. |
+| Keynote | Introduction to computational neuroscience and dendritic computation. Tutorial to NEURON software and PyTorch ANN. |
 
 ----
 
 ### Week 5: Model Fitting
 
-**Description:** Fit models to data, quantify uncertainty, compare models. Introduction to machine learning. The commonly used approaches, how to avoid false positives, how to do it well. 
+**Description:** Fit models to data, quantify uncertainty, compare models.  The commonly used approaches, how to avoid false positives, how to do it well. 
 
 | Lecture   | Details                                                      |
 | --------- | ------------------------------------------------------------ |
 | Intro     | Why and how to fit models. How to predict neuronal activity with given data. |
-| Tutorials | Linear regression. Get error bars with bootstrapping. Multi-dimensional linear regression and polynomial regression, and compare models, cross-validation, hyperparameters.<br>Introduction to GLMs and predicting neural responses. <br/>Logistic regression, regularization, and decoding neural activity. |
+| Tutorials | Linear regression. Get error bars with bootstrapping. Multi-dimensional linear regression and polynomial regression, and compare models, cross-validation, hyperparameters. |
 | Outro     | Recap session, Critical evaluation of model fitting          |
 
 ----
-### Week 6: Dimensionality Reduction
+
+### Week 6: Model Practice 2
+
+**Description:** Introduction to the process of building models. Project introduction.
+
+| Lecture | Details                                                      |
+| ------- | ------------------------------------------------------------ |
+| Keynote | Compressive Sensing in spiking neuronal networks, a demonstration of the modeling process. Tutorial to Brian2 package. |
+
+----
+### Week 7: Dimensionality Reduction
 
 **Description:** Concept of dimensionality reduction, ways of doing it, what it means.
 
@@ -136,7 +146,7 @@
 
 ----
 
-### Week 7: Bayesian Statistics
+### Week 8: Bayesian Statistics
 
 **Description** Bayesian statistics, modeling of behavior, modeling of neural data, quantifying information
 
@@ -147,7 +157,7 @@
 | Outro     | Recap session, Advanced Bayesian methods                     |
 
 ----
-### Week 8: Network Causality
+### Week 9: Network Causality
 
 **Description:** Ways of discovering causal relations, ways of estimating networks, what we can do with networks
 
@@ -156,19 +166,6 @@
 | Intro     | Causality - tools for causal inference.                      |
 | Tutorials | Pittfalls of Granger and Centrality. Instrumental Variables and interventions |
 | Outro     | Recap session, Ladders of causality                          |
-
-----
-
-### Week 9: Decision Making
-
-**Description:** How we can make decisions when information comes in over time.
-
-| Lecture   | Details                                                      |
-| --------- | ------------------------------------------------------------ |
-| Intro     | We need to decide stuff                                      |
-| Tutorials | Information theory, Sequential Probability Ratio Test (SPRT). <br>Hidden Markov Model inference (DDM), Kalman filter |
-| Outro     | Recap session, Decisions, decisions, decisions ...           |
-
 
 ----
 
