@@ -45,7 +45,7 @@ def main():
         topic = " ".join(topic_words)
 
         # Note: this will fail if we have 10+ notebooks
-        notebooks = sorted(glob(f"{day_path}/*.ipynb"))
+        notebooks = sorted(glob(f"{day_path}/student/*.ipynb"))
 
         if not notebooks:
             continue
@@ -94,10 +94,10 @@ def main():
         day_readme_text = [
             f"# {day_code} - {topic}",
             "",
-            "## Instructor notebooks",
-            "",
+#            "## Instructor notebooks",
+#            "",
         ]
-        day_readme_text.extend(write_badge_table(notebooks))
+#        day_readme_text.extend(write_badge_table(notebooks))
 
         day_readme_text.extend([
             "## Student notebooks",
