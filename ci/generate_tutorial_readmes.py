@@ -103,7 +103,8 @@ def main():
             "## Student notebooks",
             "",
         ])
-        day_readme_text.extend(write_badge_table(student_notebooks))
+        day_readme_text.extend(write_badge_table(notebooks))
+#        day_readme_text.extend(write_badge_table(student_notebooks))
 
         # Write the day README file
         with open(f"{day_path}/README.md", "w") as f:
