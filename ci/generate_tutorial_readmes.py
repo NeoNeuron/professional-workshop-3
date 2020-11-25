@@ -86,7 +86,8 @@ def main():
 #                "",
 #            ])
 
-        course_readme_text.extend(write_badge_table(student_notebooks))
+#        course_readme_text.extend(write_badge_table(student_notebooks))
+        course_readme_text.extend(write_badge_table(notebooks))
         course_readme_text.append("\n")
 
         # Now make the day-specific README
