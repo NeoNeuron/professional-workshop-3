@@ -57,10 +57,11 @@
 * [Week 4: Model Practice 1](#week-4-model-practice-1)
 * [Week 5: Model Fitting](#week-5-model-fitting)
 * [Week 6: Model Practice 2](#week-6-model-practice-2)
-* [Week 7: Dimensionality Reduction](#week-7-dimensionality-reduction)
-* [Week 8: Bayesian Statistics](#week-8-bayesian-statistics)
-* [Week 9: Network Causality](#week-9-network-causality)
-* [Week 10: CNN and Autoencoder](#week-10-cnn-and-autoencoder)
+* [Week 7: GLM](#week-7-GLM)
+* [Week 8: Dimensionality Reduction](#week-8-dimensionality-reduction)
+* [Week 9: Bayesian Statistics](#week-9-bayesian-statistics)
+* [Week 10: Network Causality](#week-10-network-causality)
+* [Optional: CNN and Autoencoder](#optional-cnn-and-autoencoder)
 
 
 ### Week 0: Python Workshop
@@ -134,7 +135,22 @@
 | Keynote | Compressive Sensing in spiking neuronal networks, a demonstration of the modeling process. Tutorial to Brian2 package. |
 
 ----
-### Week 7: Dimensionality Reduction
+----
+
+### Week 7: GLM
+
+**Description** Introduction to machine learning. The commonly used approaches, how to avoid false positives, how to do it well
+
+| Lecture   | Details                                                            |
+|-----------|--------------------------------------------------------------------|
+| Intro     | We want to predict ([scikit learn](https://scikit-learn.org/))    |
+| Tutorials | Introduction to GLMs and predicting neural responses. Logistic regression, regularization, and decoding neural activity.     |
+| Outro     | Recap session, Promises and pitfalls of ML for Neuroscience        |
+
+
+----
+
+### Week 8: Dimensionality Reduction
 
 **Description:** Concept of dimensionality reduction, ways of doing it, what it means.
 
@@ -146,7 +162,7 @@
 
 ----
 
-### Week 8: Bayesian Statistics
+### Week 9: Bayesian Statistics
 
 **Description** Bayesian statistics, modeling of behavior, modeling of neural data, quantifying information
 
@@ -157,7 +173,7 @@
 | Outro     | Recap session, Advanced Bayesian methods                     |
 
 ----
-### Week 9: Network Causality
+### Week 10: Network Causality
 
 **Description:** Ways of discovering causal relations, ways of estimating networks, what we can do with networks
 
@@ -169,7 +185,7 @@
 
 ----
 
-### Week 10: CNN and Autoencoder
+### Optional: CNN and Autoencoder
 
 **Description:** The concept of ANNs, how to train them,what they are made out of, convnets, and how to fit them to brains. Dimension reduction using deep learning, and autoencoders for structure discovery.
 
