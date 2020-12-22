@@ -29,7 +29,7 @@ def main():
 
     day_anchors = {}
 
-    day_paths = sorted(glob("tutorials/W?_*"))
+    day_paths = sorted(glob("tutorials/W*_*"))
     for day_path in day_paths:
 
         day_name = os.path.split(day_path)[-1]
