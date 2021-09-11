@@ -28,6 +28,22 @@ from copy import deepcopy
 import nbformat
 from nbconvert.preprocessors import ExecutePreprocessor
 
+style_string = '''
+nma_style = {
+    'figure.figsize' : (8, 6),
+    'figure.autolayout' : True,
+    'font.size' : 15,
+    'xtick.labelsize' : 'small',
+    'ytick.labelsize' : 'small',
+    'legend.fontsize' : 'small',
+    'axes.spines.top' : False,
+    'axes.spines.right' : False,
+    'xtick.major.size' : 5,
+    'ytick.major.size' : 5,
+}
+for key, value in nma_style.items():
+    plt.rcParams[key] = value
+'''
 
 GITHUB_RAW_URL = (
     "https://raw.githubusercontent.com/NeoNeuron/professional-workshop-3/master"
@@ -84,6 +100,8 @@ def main(arglist):
 
         # Clean whitespace from all code cells
         clean_whitespace(nb)
+
+        replace_style_use(nb)
 
         # Run the notebook from top to bottom, catching errors
         print(f"Executing {nb_path}")
@@ -401,6 +419,17 @@ def parse_args(arglist):
     )
     return parser.parse_args(arglist)
 
+def replace_style_use(nb):
+    """Replace plt.style.use() with specific plt.rcParams settings."""
+    for cell in nb.get("cells", []):
+        if cell.get("cell_type", "") == "code":
+            source_lines = cell["source"].splitlines()
+            clean_lines = [
+                style_string 
+                if 'plt.style.use' in line else line 
+                for line in source_lines
+            ]
+            cell["source"] = "\n".join(clean_lines)
 
 if __name__ == "__main__":
 
