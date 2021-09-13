@@ -4,7 +4,7 @@
 - Check that the cells have been executed sequentially on a fresh kernel
 - Strip trailing whitespace from all code lines
 - Execute the notebook and fail if errors are encountered
-- Extract solution code and write a .py file witht the solution
+- Extract solution code and write a .py file with the solution
 - Replace solution cells with a "hint" image and a link to the solution code
 - Redirect Colab-inserted badges to the master branch
 - Set the Colab notebook name field based on file path
@@ -73,8 +73,11 @@ def main(arglist):
         print("No notebook files found")
         sys.exit(0)
 
+    # Set execution parameters. We allow NotImplementedError as that is raised
+    # by incomplete exercises and is unlikely to be otherwise encountered.
+    exec_kws = {"timeout": 14400, "allow_error_names": ["NotImplementedError"]}
+
     # Allow environment to override stored kernel name
-    exec_kws = {"timeout": 600}
     if "NB_KERNEL" in os.environ:
         exec_kws["kernel_name"] = os.environ["NB_KERNEL"]
 
@@ -89,7 +92,7 @@ def main(arglist):
             nb = nbformat.read(f, nbformat.NO_CONVERT)
 
         if not sequentially_executed(nb):
-            if args.require_sequntial:
+            if args.require_sequential:
                 err = (
                     "Notebook is not sequentially executed on a fresh kernel."
                     "\n"
@@ -103,29 +106,29 @@ def main(arglist):
 
         replace_style_use(nb)
 
-        # Run the notebook from top to bottom, catching errors
-        print(f"Executing {nb_path}")
+        # Ensure that we have an executed notebook, in one of two ways
         executor = ExecutePreprocessor(**exec_kws)
-        try:
-            executor.preprocess(nb)
-        except Exception as err:
-            # Log the error, but then continue
-            errors[nb_path] = err
+        if args.execute:
+            # Check dynamically by executing and reporting errors
+            print(f"Executing {nb_path}")
+            error = execute_notebook(executor, nb, args.raise_fast)
+        elif args.check_execution:
+            # Check statically by examining the cell outputs
+            print(f"Checking {nb_path} execution")
+            error = check_execution(executor, nb, args.raise_fast)
         else:
+            error = None
+        
+        if error is None:
             notebooks[nb_path] = nb
+        else:
+            errors[nb_path] = error
 
     if errors or args.check_only:
         exit(errors)
 
-    # Further filter the notebooks to run post-processing only on tutorials
-    tutorials = {
-        nb_path: nb
-        for nb_path, nb in notebooks.items()
-        if nb_path.startswith("tutorials")
-    }
-
-    # Post-process notebooks to remove solution code and write both versions
-    for nb_path, nb in tutorials.items():
+    # Post-process notebooks
+    for nb_path, nb in notebooks.items():
 
         # Extract components of the notebook path
         nb_dir, nb_fname = os.path.split(nb_path)
@@ -135,15 +138,21 @@ def main(arglist):
         for cell in nb.get("cells", []):
             if has_colab_badge(cell):
                 redirect_colab_badge_to_master_branch(cell)
+                # add kaggle badge
+                add_kaggle_badge(cell, nb_path)
 
         # Ensure that Colab metadata dict exists and enforce some settings
         add_colab_metadata(nb, nb_name)
 
-        # Clean the original notebook and save it to disk
+        # Write the original notebook back to disk, clearing outputs only for tutorials
         print(f"Writing complete notebook to {nb_path}")
         with open(nb_path, "w") as f:
-            nb_clean = clean_notebook(nb)
+            nb_clean = clean_notebook(nb, clear_outputs=nb_path.startswith("tutorials"))
             nbformat.write(nb_clean, f)
+
+        # if the notebook is not in tutorials, skip the creation/update of the student, static, solutions directories
+        if not nb_path.startswith("tutorials"):
+            continue
 
         # Create subdirectories, if they don't exist
         student_dir = make_sub_dir(nb_dir, "student")
@@ -159,6 +168,8 @@ def main(arglist):
         for cell in student_nb.get("cells", []):
             if has_colab_badge(cell):
                 redirect_colab_badge_to_student_version(cell)
+                # add kaggle badge
+                add_kaggle_badge(cell, nb_path)
 
         # Write the student version of the notebook
         student_nb_path = os.path.join(student_dir, nb_fname)
@@ -181,6 +192,48 @@ def main(arglist):
                 f.write(snippet)
 
     exit(errors)
+
+
+# ------------------------------------------------------------------------------------ #
+
+def execute_notebook(executor, nb, raise_fast):
+    """Execute the notebook, returning errors to be handled."""
+    try:
+        executor.preprocess(nb)
+    except Exception as error:
+        if raise_fast:
+            # Exit here (useful for debugging)
+            raise error
+        else:
+            # Raise the error to be handled by the caller
+            return error
+
+
+def check_execution(executor, nb, raise_fast):
+    """Check that all code cells with source have been executed without error."""
+    error = None
+    for cell in nb.get("cells", []):
+
+        # Only check code cells
+        if cell["cell_type"] != "code":
+            continue
+
+        if cell["source"] and cell["execution_count"] is None:
+            error = "Notebook has unexecuted code cell(s)."
+            if raise_fast:
+                raise RuntimeError(error)
+            break
+        else:
+            for output in cell["outputs"]:
+                if output["output_type"] == "error":
+                    if output["ename"] in executor.allow_error_names:
+                        continue
+                    error = "\n".join(output["traceback"])
+                    if raise_fast:
+                        raise RuntimeError("\n" + error)
+                    break
+
+    return error
 
 
 def extract_solutions(nb, nb_dir, nb_name):
@@ -258,7 +311,7 @@ def extract_solutions(nb, nb_dir, nb_name):
     return nb, static_images, solution_snippets
 
 
-def clean_notebook(nb):
+def clean_notebook(nb, clear_outputs=True):
     """Remove cell outputs and most unimportant metadata."""
     # Always operate on a copy of the input notebook
     nb = deepcopy(nb)
@@ -285,7 +338,8 @@ def clean_notebook(nb):
                 cell[key] = None
 
         if "metadata" in cell:
-            for field in ["collapsed", "scrolled", "ExecuteTime"]:
+            cell.metadata["execution"] = {}
+            for field in ["colab", "collapsed", "scrolled", "ExecuteTime", "outputId"]:
                 cell.metadata.pop(field, None)
 
         # Reset cell-level Colab metadata
@@ -293,12 +347,12 @@ def clean_notebook(nb):
             if not cell["metadata"]["id"].startswith("view-in"):
                 cell["metadata"].pop("id")
 
-        # Remove code cell outputs
         if cell["cell_type"] == "code":
-            cell["outputs"] = []
+            # Remove code cell outputs if requested
+            if clear_outputs:
+                cell["outputs"] = []
 
-        # Ensure that form cells are hidden by default
-        if cell["cell_type"] == "code":
+            # Ensure that form cells are hidden by default
             first_line, *_ = cell["source"].splitlines()
             if "@title" in first_line or "@markdown" in first_line:
                 cell["metadata"]["cellView"] = "form"
@@ -331,6 +385,19 @@ def clean_whitespace(nb):
             cell["source"] = "\n".join(clean_lines)
 
 
+def test_clean_whitespace():
+
+    nb = {
+        "cells": [
+            {"cell_type": "code", "source": "import numpy  \nimport matplotlib   "},
+            {"cell_type": "markdown", "source": "# Test notebook  "},
+        ]
+    }
+    clean_whitespace(nb)
+    assert nb["cells"][0]["source"] == "import numpy\nimport matplotlib"
+    assert nb["cells"][1]["source"] == "# Test notebook  "
+
+
 def has_solution(cell):
     """Return True if cell is marked as containing an exercise solution."""
     cell_text = cell["source"].replace(" ", "").lower()
@@ -341,25 +408,103 @@ def has_solution(cell):
     )
 
 
+def test_has_solution():
+
+    cell = {"source": "# solution"}
+    assert not has_solution(cell)
+
+    cell = {"source": "def exercise():\n    pass\n# to_remove"}
+    assert not has_solution(cell)
+
+    cell = {"source": "# to_remove_solution\ndef exercise():\n    pass"}
+    assert has_solution(cell)
+
+
 def has_colab_badge(cell):
     """Return True if cell has a Colab badge as an HTML element."""
     return "colab-badge.svg" in cell["source"]
 
 
+def test_has_colab_badge():
+
+    cell = {
+        "source": "import numpy as np"
+    }
+    assert not has_colab_badge(cell)
+
+    cell = {
+        "source":
+        "<img src=\"https://colab.research.google.com/assets/colab-badge.svg\" "
+    }
+    assert has_colab_badge(cell)
+
+
 def redirect_colab_badge_to_master_branch(cell):
     """Modify the Colab badge to point at the master branch on Github."""
     cell_text = cell["source"]
-    p = re.compile(r"^(.+/NeoNeuron/professional-workshop-3/blob/)\w+(/.+$)")
+    p = re.compile(r"^(.+/NeoNeuron/professional-workshop-3/blob/)[\w-]+(/.+$)")
     cell["source"] = p.sub(r"\1master\2", cell_text)
+    
 
+def test_redirect_colab_badge_to_master_branch():
+
+    original = (
+        "\"https://colab.research.google.com/github/NeoNeuron/"
+        "professional-workshop-3/blob/W1D1-updates/tutorials/W1_ModelTypes/"
+        "W1D1_Tutorial1.ipynb\""
+    )
+    cell = {"source": original}
+    redirect_colab_badge_to_master_branch(cell)
+
+    expected = (
+        "\"https://colab.research.google.com/github/NeoNeuron/"
+        "professional-workshop-3/blob/master/tutorials/W1_ModelTypes/"
+        "W1D1_Tutorial1.ipynb\""
+    )
+
+    assert cell["source"] == expected
 
 def redirect_colab_badge_to_student_version(cell):
     """Modify the Colab badge to point at student version of the notebook."""
     cell_text = cell["source"]
+    # redirect the colab badge
+    p = re.compile(r"(^.+blob/master/tutorials/W\d\w+)/(\w+\.ipynb.+)")
+    cell_text = p.sub(r"\1/student/\2", cell_text)
+    # redirect the kaggle badge
     p = re.compile(r"(^.+/tutorials/W\d\w+)/(\w+\.ipynb.+)")
     cell["source"] = p.sub(r"\1/student/\2", cell_text)
 
 
+def test_redirect_colab_badge_to_student_version():
+
+    original = (
+        "\"https://colab.research.google.com/github/NeoNeuron/"
+        "professional-workshop-3/blob/main/tutorials/W1_ModelTypes/"
+        "W1D1_Tutorial1.ipynb\""
+    )
+
+    cell = {"source": original}
+    redirect_colab_badge_to_student_version(cell)
+
+    expected = (
+        "\"https://colab.research.google.com/github/NeoNeuron/"
+        "professional-workshop-3/blob/main/tutorials/W1_ModelTypes/student/"
+        "W1D1_Tutorial1.ipynb\""
+    )
+
+    assert cell["source"] == expected
+
+def add_kaggle_badge(cell, nb_path):
+    """Add a kaggle badge if not exists."""
+    cell_text = cell["source"]
+    if "kaggle" not in cell_text:
+        badge_link = "https://kaggle.com/static/images/open-in-kaggle.svg"
+        service = "https://kaggle.com/kernels/welcome?src="
+        alter = "Open in Kaggle"
+        basic_url = "https://raw.githubusercontent.com/NeoNeuron"
+        a = f'<a href=\"{service}{basic_url}/professional-workshop-3/master/{nb_path}\" target=\"_parent\"><img src=\"{badge_link}\" alt=\"{alter}\"/></a>'
+        cell["source"] += f' &nbsp; {a}'
+ 
 def sequentially_executed(nb):
     """Return True if notebook appears freshly executed from top-to-bottom."""
     exec_counts = [
@@ -386,8 +531,8 @@ def make_sub_dir(nb_dir, name):
 def exit(errors):
     """Exit with message and status dependent on contents of errors dict."""
     for failed_file, error in errors.items():
-        print(f"{failed_file} failed quality control.")
-        print(error)
+        print(f"{failed_file} failed quality control.", file=sys.stderr)
+        print(error, file=sys.stderr)
 
     status = bool(errors)
     report = "Failure" if status else "Success"
@@ -406,16 +551,33 @@ def parse_args(arglist):
         help="File name(s) to process. Will filter for .ipynb extension."
     )
     parser.add_argument(
-        "--check-only",
+        "--execute",
         action="store_true",
-        dest="check_only",
-        help="Only run QC checks; don't do post-processing"
+        help="Execute the notebook and fail if errors are encountered."
+    )
+    parser.add_argument(
+        "--check-execution",
+        action="store_true",
+        dest="check_execution",
+        help="Check that each code cell has been executed and did not error."
     )
     parser.add_argument(
         "--allow-non-sequential",
         action="store_false",
-        dest="require_sequntial",
-        help="Don't fail if the notebook is not sequentially executed"
+        dest="require_sequential",
+        help="Don't fail if the notebook is not sequentially executed."
+    )
+    parser.add_argument(
+        "--check-only",
+        action="store_true",
+        dest="check_only",
+        help="Only run QC checks; don't do post-processing."
+    )
+    parser.add_argument(
+        "--raise-fast",
+        action="store_true",
+        dest="raise_fast",
+        help="Raise errors immediately rather than collecting and reporting."
     )
     return parser.parse_args(arglist)
 
@@ -430,6 +592,11 @@ def replace_style_use(nb):
                 for line in source_lines
             ]
             cell["source"] = "\n".join(clean_lines)
+
+def test_replace_style_use():
+    cell = {"source": "plt.style.use"}
+    replace_style_use(cell)
+    assert cell["source"] == clean_lines
 
 if __name__ == "__main__":
 

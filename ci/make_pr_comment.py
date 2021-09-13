@@ -61,7 +61,8 @@ def make_colab_badge_table(branch, notebooks):
         nb_name, _ = os.path.splitext(nb_fname)
         header.append(nb_name)
         instructor.append(make_colab_badge(branch, nb_dir, nb_fname))
-        student.append(make_colab_badge(branch, nb_dir, nb_fname, student=True))
+        if "tutorials" in nb_dir:
+            student.append(make_colab_badge(branch, nb_dir, nb_fname, student=True))
         divider.append("-")
 
     rows = header, divider, instructor, student

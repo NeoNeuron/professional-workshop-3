@@ -45,7 +45,7 @@ def main():
         topic = " ".join(topic_words)
 
         # Note: this will fail if we have 10+ notebooks
-        notebooks = sorted(glob(f"{day_path}/student/*.ipynb"))
+        notebooks = sorted(glob(f"{day_path}/*.ipynb"))
 
         if not notebooks:
             continue
@@ -56,8 +56,8 @@ def main():
             "-",
             ("-".join(topic_words)).lower(),
         ])
-        if "W0" not in day_code:
-            day_anchors[day_code] = "#" + anchor
+        # if "W0" not in day_code:
+        day_anchors[day_code] = "#" + anchor
 
         student_notebooks = get_student_links(notebooks)
 
@@ -86,8 +86,7 @@ def main():
 #                "",
 #            ])
 
-#        course_readme_text.extend(write_badge_table(student_notebooks))
-        course_readme_text.extend(write_badge_table(notebooks))
+        course_readme_text.extend(write_badge_table(student_notebooks))
         course_readme_text.append("\n")
 
         # Now make the day-specific README
@@ -95,17 +94,16 @@ def main():
         day_readme_text = [
             f"# {day_code} - {topic}",
             "",
-#            "## Instructor notebooks",
-#            "",
+            "## Instructor notebooks",
+            "",
         ]
-#        day_readme_text.extend(write_badge_table(notebooks))
+        day_readme_text.extend(write_badge_table(notebooks))
 
         day_readme_text.extend([
             "## Student notebooks",
             "",
         ])
-        day_readme_text.extend(write_badge_table(notebooks))
-#        day_readme_text.extend(write_badge_table(student_notebooks))
+        day_readme_text.extend(write_badge_table(student_notebooks))
 
         # Write the day README file
         with open(f"{day_path}/README.md", "w") as f:
@@ -134,13 +132,6 @@ def main():
         f.write("\n".join(course_readme_text))
 
 
-# def load_youtube_playlist_urls():
-#     """Create a mapping from day code to youtube link based on text file."""
-#     with open("tutorials/youtube_playlists.txt") as f:
-#         lines = filter(bool, f.read().split("\n"))
-#     return dict(tuple(line.split()) for line in lines)
-# 
-# 
 # def load_slide_urls():
 #     """Create a hierarchical mapping to slide PDF urls based on text file."""
 #     with open("tutorials/slide_links.txt") as f:
@@ -159,17 +150,28 @@ def write_badge_table(notebooks):
 
     # Add the table header
     table_text = [
-        "|   | Run | View |",
-        "| - | --- | ---- |",
+        "|   | Run | Run | View |",
+        "| - | --- | --- | ---- |",
     ]
 
-    # Add each row of the table
-    for i, local_path in enumerate(notebooks, 1):
+    # Get ordered list of file names
+    notebook_list = [name for name in notebooks if 'Intro' in name]
+    notebook_list += [name for name in notebooks if 'Tutorial' in name]
+    notebook_list += [name for name in notebooks if 'Outro' in name]
 
+    # Add badges
+    for local_path in notebook_list:
+        # Extract type of file (intro vs outro vs tutorial)
+        notebook_name = local_path.split('_')[-1].split('.ipynb')[0]
+
+        # Add space between Tutorial and number
+        if 'Tutorial' in notebook_name:
+            notebook_name = f"Tutorial {notebook_name.split('Tutorial')[1]}"
         colab_badge = make_colab_badge(local_path)
+        kaggle_badge = make_kaggle_badge(local_path)
         nbviewer_badge = make_nbviewer_badge(local_path)
         table_text.append(
-            f"| Tutorial {i} | {colab_badge} | {nbviewer_badge} |"
+            f"| {notebook_name} | {colab_badge} | {kaggle_badge} | {nbviewer_badge} |"
         )
     table_text.append("\n")
 
@@ -180,8 +182,11 @@ def get_student_links(instructor_notebooks):
     """Convert a list of instructor notebook paths to student versions."""
     student_notebooks = []
     for instructor_nb in instructor_notebooks:
-        day_path, nb_fname = os.path.split(instructor_nb)
-        student_notebooks.append(f"{day_path}/student/{nb_fname}")
+        if 'Tutorial' in instructor_nb:
+            week_path, nb_fname = os.path.split(instructor_nb)
+            student_notebooks.append(f"{week_path}/student/{nb_fname}")
+        else:
+            student_notebooks.append(instructor_nb)
     return student_notebooks
 
 
@@ -189,27 +194,28 @@ def make_colab_badge(local_path):
     """Generate a Google Colaboratory badge for a notebook on github."""
     alt_text = "Open In Colab"
     badge_svg = "https://colab.research.google.com/assets/colab-badge.svg"
-    url_base = (
-        "https://colab.research.google.com/"
-        "github/NeoNeuron/professional-workshop-3/blob/master"
-    )
-    return make_badge(alt_text, badge_svg, url_base, local_path)
+    service = "https://colab.research.google.com"
+    url_base = f"{service}/github/NeoNeuron/professional-workshop-3/blob/master"
+    return make_badge(alt_text, badge_svg, service, local_path, url_base)
 
+def make_kaggle_badge(local_path):
+    """Generate a kaggle badge for a notebook on github."""
+    alt_text = "Open In kaggle"
+    badge_svg = "https://kaggle.com/static/images/open-in-kaggle.svg"
+    service = "https://kaggle.com/kernels/welcome?src="
+    url_base = f"{service}https://raw.githubusercontent.com/NeoNeuron/professional-workshop-3/master"
+    return make_badge(alt_text, badge_svg, service, local_path, url_base)
 
 def make_nbviewer_badge(local_path):
     """Generate an NBViewer badge for a notebook on github."""
     alt_text = "View the notebook"
     badge_svg = "https://img.shields.io/badge/render-nbviewer-orange.svg"
-    url_base = (
-        "https://nbviewer.jupyter.org/"
-        "github/NeoNeuron/professional-workshop-3/blob/master"
-    )
-    return make_badge(
-        alt_text, badge_svg, url_base, f"{local_path}?flush_cache=true"
-    )
+    service = "https://nbviewer.jupyter.org"
+    url_base = f"{service}/github/NeoNeuron/professional-workshop-3/blob/master"
+    return make_badge(alt_text, badge_svg, service, f"{local_path}?flush_cache=true", url_base)
 
 
-def make_badge(alt_text, badge_svg, url_base, local_path):
+def make_badge(alt_text, badge_svg, service, local_path, url_base):
     """Generate a markdown element for a badge image that links to a file."""
     return f"[![{alt_text}]({badge_svg})]({url_base}/{local_path})"
 
