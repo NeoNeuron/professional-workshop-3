@@ -5,3 +5,12 @@ matplotlib
 scikit-learn
 torch
 ipywidgets
+decorator==5.0.9
+nbformat
+nbconvert
+notebook
+pillow
+flake8
+fuzzywuzzy[speedup]
+pyyaml
+beautifulsoup4
