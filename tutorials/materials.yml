@@ -1,0 +1,36 @@
+- day: W0
+  category: Pre-reqs Refresher
+  name: Python Workshop
+  tutorials: 2
+- day: W1
+  category: Intro to Modeling
+  name: Model Types
+  tutorials: 4
+- day: W2
+  category: Dynamical Systems
+  name: Single Neuron Models and Dynamic Networks
+  tutorials: 4
+- day: W3
+  category: Machine Learning
+  name: Dimensionality Reduction
+  tutorials: 4
+- day: W4
+  category: Machine Learning
+  name: Model Fitting and Generalized Linear Models
+  tutorials: 6
+- day: W5
+  category: Machine Learning
+  name: Machine Learning
+  tutorials: 4
+- day: W6
+  category: Stochastic Processes
+  name: Network Causality
+  tutorials: 4
+- day: W7
+  category: Stochastic Processes
+  name: Bayesian Decisions and Hidden Dynamics
+  tutorials: 3
+- day: W8
+  category: Stochastic Processes
+  name: Optimal Control and Reinforcement Learning
+  tutorials: 2
