@@ -62,7 +62,7 @@ jobs:
         if: "!contains(env.COMMIT_MESSAGE, 'skip ci')"
         id: process_notebooks
         run: |
-          branch=${{ github.event.pull_request.head.ref }}
+          branch=env.NMA_MAIN_BRANCH
           nbs=`python ci/select_notebooks.py ${{ steps.changes.outputs.files }}`
           python ci/process_notebooks.py $nbs --execute
           python ci/verify_exercises.py $nbs --c "$COMMIT_MESSAGE"
