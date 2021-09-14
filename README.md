@@ -69,11 +69,7 @@
 - [Stimulus Representation](https://www.bilibili.com/video/BV1d64y1t7mP)
 - [Neurotransmitters](https://www.bilibili.com/video/BV1Vy4y1M79o)
 - [Neurons to Consciousness](https://www.bilibili.com/video/BV1eU4y1G7Hr)
-- [Brain Signals: Spiking Activity](https://www.bilibili.com/video/BV1uv411H77J)
-- [Brain Signals: LFP](https://www.bilibili.com/video/BV17o4y1C7K4)
-- [Brain Signals: EEG & MEG](https://www.bilibili.com/video/BV1RV411s7kn)
-- [Brain Signals: fMRI](https://www.bilibili.com/video/BV1wU4y1V776)
-- [Brain Signals: Calcium Imaging](https://www.bilibili.com/video/BV1G44y1z7Tg)
+- **Brain Signals:** [Spiking Activity](https://www.bilibili.com/video/BV1uv411H77J), [LFP](https://www.bilibili.com/video/BV17o4y1C7K4), [EEG & MEG](https://www.bilibili.com/video/BV1RV411s7kn), [fMRI](https://www.bilibili.com/video/BV1wU4y1V776), [Calcium Imaging](https://www.bilibili.com/video/BV1G44y1z7Tg)
 
 ## 课程材料
 
