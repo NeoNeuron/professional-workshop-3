@@ -14,3 +14,4 @@ flake8
 fuzzywuzzy[speedup]
 pyyaml
 beautifulsoup4
+brian2
