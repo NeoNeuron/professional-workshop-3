@@ -11,15 +11,15 @@
   - [课程大纲 (实际顺序根据课程进度调整)](#课程大纲-实际顺序根据课程进度调整)
     - [Week 0: Python Workshop](#week-0-python-workshop)
     - [Week 1: Model Types](#week-1-model-types)
-    - [Week 2: Intro to CNS, single neuron models and neural dynamics](#week-2-intro-to-cns-single-neuron-models-and-neural-dynamics)
+    - [Week 2: Intro to CNS, Single Neuron Models and Network Dynamics](#week-2-intro-to-cns-single-neuron-models-and-network-dynamics)
     - [Week 3: Dimensionality Reduction](#week-3-dimensionality-reduction)
-    - [Week 4: Model fitting and GLM](#week-4-model-fitting-and-glm)
+    - [Week 4: Model Fitting and GLM](#week-4-model-fitting-and-glm)
     - [Week 5: Machine Learning](#week-5-machine-learning)
     - [Week 6: Network Causality](#week-6-network-causality)
     - [Week 7: Bayesian Statistics and HMM](#week-7-bayesian-statistics-and-hmm)
-    - [Week 8: Optimal control and reinforcement learning](#week-8-optimal-control-and-reinforcement-learning)
-    - [Week 9: Students Presentation 1 (3 Groups)](#week-9-students-presentation-1-3-groups)
-    - [Week 10: Students Presentation 2 (2 Groups)](#week-10-students-presentation-2-2-groups)
+    - [Week 8: Optimal Control and Reinforcement Learning](#week-8-optimal-control-and-reinforcement-learning)
+    - [Week 9: TBD](#week-9-tbd)
+    - [Week 10: Students Presentations (20 min each group)](#week-10-students-presentations-20-min-each-group)
 
 
 **课程目标**： 
@@ -98,17 +98,17 @@
 
 ----
 
-### Week 2: Intro to CNS, single neuron models and neural dynamics
+### Week 2: Intro to CNS, Single Neuron Models and Network Dynamics
 
 | Lecture   |    Details                                                            |
 | ----------| --------------------------------------------------------------------- |
 | Intro     |    1. Intro to computational neuroscience.                            |
-||2. Introduction to HH neuron model, and dynamics of HH models.                    |
-||3. Network dynamics.
+||2. Introduction to LIF and HH neuron model, and network dynamics.
 | Tutorials |    1. Coding to simulate LIF neuron;
-|| 2. Coding to simulate HH neuron with the help of Brian2
-|| 3. Coding to simulate LIF network model, and tune the network to reach different dynamical region;|
-|Bonus | Linear systems theory, 2D dynamical systems, Wilson-Cowen model (coarse-grained), oscillations & synchrony. <br> Attractors & local linearization around fixed points, Balanced Amplification & Inhibition-stabilized network. |
+|| 2. Coding to simulate LIF network model with the help of Brian2, and tune the network to reach different dynamical region;|
+|Bonus | Synaptic dynamics. |
+
+<!-- Linear systems theory, 2D dynamical systems, Wilson-Cowen model (coarse-grained), oscillations & synchrony. <br> Attractors & local linearization around fixed points, Balanced Amplification & Inhibition-stabilized network. | -->
 
 ----
 
@@ -124,7 +124,7 @@
 
 ----
 
-### Week 4: Model fitting and GLM
+### Week 4: Model Fitting and GLM
 
 | Lecture | Details                                                      |
 | ------- | ------------------------------------------------------------ |
@@ -171,7 +171,7 @@
 
 ----
 
-### Week 8: Optimal control and reinforcement learning
+### Week 8: Optimal Control and Reinforcement Learning
 
 | Lecture   | Details                                                      |
 | --------- | ------------------------------------------------------------ |
@@ -180,10 +180,10 @@
 
 ----
 
-### Week 9: Students Presentation 1 (3 Groups)
+### Week 9: TBD
 
 ----
 
-### Week 10: Students Presentation 2 (2 Groups)
+### Week 10: Students Presentations (20 min each group)
 
 ----
