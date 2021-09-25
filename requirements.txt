@@ -15,3 +15,4 @@ fuzzywuzzy[speedup]
 pyyaml
 beautifulsoup4
 brian2
+pandas
