@@ -122,8 +122,7 @@
 | Intro     | 1. Low dim manifold in high dim data;|
 || 2. high-D signals and low-D behavior;
 || 3. bonus: geometric point of view for low dim manifold;                         |
-|Tutorials| 1. PCA 101;
-||2. Other methods for dimensionality reduction. |
+|Tutorials| Practice PCA with synthatic data;|
 
 ----
 
@@ -131,11 +130,12 @@
 
 | Lecture | Details                                                      |
 | ------- | ------------------------------------------------------------ |
-| Intro    | 1. How to fit data with linear models, MLE. |
+| Intro    | 1. How to fit data with linear regression model. |
 | | 2. Extend linear model to Poisson GLM to fit an encoding model to spike data.|
 | | 3. Regularizations.|
-| Tutorials | 1. Linear regression, multi-dimensional linear regression and polynomial regression, and compare models, cross-validation. |
-| | 2. Introduction to GLMs and predicting neural responses. Logistic regression, regularization, and decoding neural activity.   |
+| Tutorials | 1. Linear regression, multi-dimensional linear regression and polynomial regression.
+| | 2. GLMs and predicting neural responses. Logistic regression, regularization, and decoding neural activity.   |
+| | Bonus:  Model comparison and cross-validations. |
 
 ----
 
