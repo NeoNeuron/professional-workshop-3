@@ -157,8 +157,8 @@
 | --------- | ------------------------------------------------------------ |
 | Intro     | 1. definition of and Tools for causal inference;|
 || 2. Applying GC, TDMI, TE onto neural data to infer connectivity;.                      |
-| Tutorials | 1. model based inference, instrumental variable, and GC|
-|| 2. model free inference, TDMI and TE;
+| Tutorials | 1. Model based inference, and GC|
+|| 2. Model free inference, TDMI, compare the performance of GC and TDMI for different synthatic data.|
 
 ----
 
