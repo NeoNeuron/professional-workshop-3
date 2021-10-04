@@ -16,10 +16,11 @@
     - [Week 4: Model Fitting and GLM](#week-4-model-fitting-and-glm)
     - [Week 5: Machine Learning](#week-5-machine-learning)
     - [Week 6: Network Causality](#week-6-network-causality)
-    - [Week 7: Bayesian Statistics and HMM](#week-7-bayesian-statistics-and-hmm)
-    - [Week 8: Optimal Control and Reinforcement Learning](#week-8-optimal-control-and-reinforcement-learning)
-    - [Week 9: TBD](#week-9-tbd)
-    - [Week 10: Students Presentations (20 min each group)](#week-10-students-presentations-20-min-each-group)
+    - [Week 7: Bayesian Statistics](#week-7-bayesian-statistics)
+    - [Week 8: Hidden Markov Model](#week-8-hidden-markov-model)
+    - [Week 9: Optimal Control](#week-9-optimal-control)
+    - [Week 10: Reinforcement Learning](#week-10-reinforcement-learning)
+    - [Week 10: Students Presentations (20 min each group $\times$ 4)](#week-10-students-presentations-20-min-each-group-times-4)
 
 
 **课程目标**： 介绍传统与新兴的计算神经科学相关的研究工具，其相关的发展现状，以及如何运用他们帮助我们更好的理解大脑。课程主要正对模型选取、模型搭建，模型评价，以及理解模型如何与我们关注的生物问题建立联系。
@@ -165,28 +166,50 @@
 
 ----
 
-### Week 7: Bayesian Statistics and HMM
+### Week 7: Bayesian Statistics
 
 | Lecture   | Details                                                      |
 | --------- | ------------------------------------------------------------ |
 | Intro     | Uncertainty in signal detection theory of visual search.     |
-| Tutorials | Bayes rule: cue combination and marginalization. Bayesian Decision Theory & Causal inference. |
+| Tutorials | 1. Bayes with a binary hidden state.|
+|| 2. Bayesian decision and inference with continuous hidden state.|
 
 ----
 
-### Week 8: Optimal Control and Reinforcement Learning
+### Week 8: Hidden Markov Model
 
 | Lecture   | Details                                                      |
 | --------- | ------------------------------------------------------------ |
-| Intro     |                                      |
-| Tutorials |  |
+| Intro     |  Combining linear dynamics and Bayesian statistics to form Hidden Markov Models (HMMs). |
+| Tutorials | 1. Fishing (for a binary latent state).|
+||2. Tracking astrocat (for a gaussian latent state).|
+||3. Kalmann filter. |
+
 
 ----
 
-### Week 9: TBD
+### Week 9: Optimal Control
+
+| Lecture   | Details                                                      |
+| --------- | ------------------------------------------------------------ |
+| Intro     | Intro to optimal control by adding actions to maximize utility in previous HMM system.   |
+| Tutorials | 1. Fishing example, updating your fishing location to catch the most fish. |
+| | 2. Astrocat example, using the cat’s jetpack to keep the cat on target.|
 
 ----
 
-### Week 10: Students Presentations (20 min each group)
+### Week 10: Reinforcement Learning
+
+| Lecture   | Details                                                      |
+| --------- | ------------------------------------------------------------ |
+| Intro     | Intro to Reinforcement Learning.                        |
+|Tutorials|1. how we learn the value of future states from our experience. |
+||2. how to make and learn from actions and the explore-exploit dilemma. |
+||3. how we can efficiently learn the future value of actions from experience. |
+||4. how having a model of the world’s dynamics can help you to learn and act.|
+
+----
+
+### Week 10: Students Presentations (20 min each group $\times$ 4)
 
 ----
