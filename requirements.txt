@@ -4,6 +4,8 @@ scipy
 matplotlib
 scikit-learn
 torch
+torchvision
+torchaudio
 ipywidgets
 decorator==5.0.9
 nbformat
