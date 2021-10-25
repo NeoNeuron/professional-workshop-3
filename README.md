@@ -11,7 +11,7 @@
   - [课程大纲 (实际顺序根据课程进度调整)](#课程大纲-实际顺序根据课程进度调整)
     - [Week 0: Python Workshop](#week-0-python-workshop)
     - [Week 1: Model Types](#week-1-model-types)
-    - [Week 2: Intro to CNS, Single Neuron Models and Network Dynamics](#week-2-intro-to-cns-single-neuron-models-and-network-dynamics)
+    - [Week 2: Intro to CNS, Single Neuron Models and Network Models](#week-2-intro-to-cns-single-neuron-models-and-network-models)
     - [Week 3: Dimensionality Reduction](#week-3-dimensionality-reduction)
     - [Week 4: Model Fitting and GLM](#week-4-model-fitting-and-glm)
     - [Week 5: Machine Learning](#week-5-machine-learning)
@@ -20,26 +20,25 @@
     - [Week 8: Hidden Markov Model](#week-8-hidden-markov-model)
     - [Week 9: Optimal Control](#week-9-optimal-control)
     - [Week 10: Reinforcement Learning](#week-10-reinforcement-learning)
-    - [Week 10: Students Presentations (20 min each group $\times$ 4)](#week-10-students-presentations-20-min-each-group-times-4)
+    - [Week 10: Students Presentations (20 min each group)](#week-10-students-presentations-20-min-each-group)
 
-
-**课程目标**： 
+**课程目标**：
 这门课程以数学与生命学科，尤其是神经科学交叉为背景，着眼于交叉学科的思维能力以及数学定量的训练，通过介绍一些常用的数学、统计学等方法在神经科学中的应用，配合一些小的研究项目来培养跨学科思想以及从事交叉学科研究的基本能力。
 
-**课程形式**：10周课程+小组Project大作业
+**课程形式**：9周课程(课堂编程练习)+小组Project大作业
 
 - 30 分钟： 背景知识介绍
 - 1 小时：课堂编程练习+小组讨论
 
-**课程成绩**
+**课程成绩**:
 
-- 70% - Project 大作业 (Project Report)
-- 30% - 平时出勤与期末反馈
+- 70% - Project大作业, 包括Project Presentation (40%) + Project书面报告 (30%)
+- 30% - 平时出勤与期末400字课程总结反馈
 
-**注意事项**
+**注意事项**:
 
 - 平时课堂参与度将纳入平时出勤考核。
-- 大作业以小组形式进行，每位同学需在期末报告中标注个人贡献，结合小组project完成度与个人贡献情况打分。
+- 大作业以小组形式进行，每位同学需在Project书面报告中标注个人贡献，结合小组project完成度与个人贡献情况打分。
 
 ## 预备知识
 
@@ -84,7 +83,6 @@
 
 ## 课程大纲 (实际顺序根据课程进度调整)
 
-
 ### Week 0: Python Workshop
 
 **Description:** Two workshop for absolute Python beginners. Learn essential Python skills for course tutorials and practice by coding a neuronal simulation.
@@ -99,7 +97,7 @@
 
 ----
 
-### Week 2: Intro to CNS, Single Neuron Models and Network Dynamics
+### Week 2: Intro to CNS, Single Neuron Models and Network Models
 
 | Lecture   |    Details                                                            |
 | ----------| --------------------------------------------------------------------- |
@@ -141,11 +139,9 @@
 
 | Lecture | Details                                                      |
 | ------- | ------------------------------------------------------------ |
-| Intro | 1. Application of deep learning in neuroscience; |
-|| 2. Train a network to predict behavior data based on electrophysiological data.|
-|| 3. Train RNN; |
-| Tutorials | 1. Pytorch 101. Predicting neuronal data with with MLP. |
-| | 2. Train RNN to perform behavior tasks. | 
+| Intro | Current application of deep learning in neuroscience researches.|
+| Tutorials | 1. Train a CNN with MNIST dataset using Pytorch. Calculate and observe the receptive field of trained ANN neurons. |
+| | 2. Train a RNN to perform a perceptual decision making tasks. Apply analysis of dynamical system on RNNs.|
 <!-- Fit to brain (RSA - represenatational similarity analysis). Variational autoencorders and uses in Neuroscience. | -->
 
 ----
@@ -182,7 +178,6 @@
 ||2. Tracking astrocat (for a gaussian latent state).|
 ||3. Kalmann filter. |
 
-
 ----
 
 ### Week 9: Optimal Control
@@ -207,6 +202,6 @@
 
 ----
 
-### Week 10: Students Presentations (20 min each group $\times$ 4)
+### Week 10: Students Presentations (20 min each group)
 
 ----
