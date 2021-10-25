@@ -1,6 +1,0 @@
-objref apical_dendrite
-apical_dendrite = new SectionList()
-
-for i = 0,134 dend[i] {
-  apical_dendrite.append()
-}

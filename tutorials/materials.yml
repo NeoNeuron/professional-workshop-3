@@ -5,11 +5,11 @@
 - day: W1
   category: Intro to Modeling
   name: Model Types
-  tutorials: 4
+  tutorials: 3
 - day: W2
   category: Dynamical Systems
-  name: Single Neuron Models and Dynamic Networks
-  tutorials: 4
+  name: Single Neuron Models and Network Models
+  tutorials: 3
 - day: W3
   category: Machine Learning
   name: Dimensionality Reduction
@@ -17,20 +17,27 @@
 - day: W4
   category: Machine Learning
   name: Model Fitting and Generalized Linear Models
-  tutorials: 6
+  tutorials: 7
 - day: W5
   category: Machine Learning
   name: Machine Learning
-  tutorials: 4
+  tutorials: 2
 - day: W6
   category: Stochastic Processes
   name: Network Causality
-  tutorials: 4
+  tutorials: 2
 - day: W7
   category: Stochastic Processes
-  name: Bayesian Decisions and Hidden Dynamics
-  tutorials: 3
+  name: Bayesian Decisions 
+  tutorials: 2
 - day: W8
+  name: Hidden Dynamics
+  tutorials: 3
+- day: W9
   category: Stochastic Processes
-  name: Optimal Control and Reinforcement Learning
+  name: Optimal Control
+  tutorials: 2
+- day: W10
+  category: Stochastic Processes
+  name: Reinforcement Learning
   tutorials: 2
