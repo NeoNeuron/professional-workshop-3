@@ -1,0 +1,14 @@
+/*To find min value*/
+
+flag_min=0
+
+func find_min() { local j, min
+min=$o1.x(0)
+		for j=1, $o1.size()-1 {
+				if($o1.x(j)<min) {	
+					min=$o1.x(j)
+				  flag_min=j
+				  }
+				}	
+return min
+}	

@@ -1,0 +1,29 @@
+objref apical_trunk
+apical_trunk=new SectionList()
+
+// in stratum radiatum (SR)
+dend[0]  apical_trunk.append() // 41.50 	microns from soma 
+dend[2]  apical_trunk.append() // 94.47                   
+dend[14] apical_trunk.append() // 122.82                  
+dend[28] apical_trunk.append() // 151.46                  
+dend[30] apical_trunk.append() // 179.70                  
+dend[32] apical_trunk.append() // 195.53                  
+dend[40] apical_trunk.append() // 201.79                  
+dend[44] apical_trunk.append() // 227.96                  
+dend[52] apical_trunk.append() // 254.45                  
+dend[60] apical_trunk.append() // 262.17                  
+dend[66] apical_trunk.append() // 268.27                  
+dend[72] apical_trunk.append() // 283.71                  
+dend[74] apical_trunk.append() // 311.14                  
+dend[78] apical_trunk.append() // 343.59  
+
+// in stratum lacunosum-moleculare (SLM)   
+/*             
+dend[84] apical_trunk.append() // 357.25                  
+dend[90] apical_trunk.append() // 381.01                  
+dend[92] apical_trunk.append() // 425.78                  
+dend[98] apical_trunk.append() // 448.71
+*/
+
+
+

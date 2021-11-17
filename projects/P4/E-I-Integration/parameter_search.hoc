@@ -1,0 +1,307 @@
+//parameter search procedure, creating source files with ampa-R and gabaa-R 
+//conductances tuned for producing 0.2~5 mV EPSPs and -0.1~-3.5 mV IPSPs in the soma
+//The input file loads the numbers of dendritic sections.
+
+/*apical trunk list: 0(41.50)-2(94.47)-14(122.82)-28(151.46)-30(179.70)-32(195.53)-40(201.79)-
+	-44(227.96)-52(254.45)-60(262.17)-66(268.27)-72(283.71)-74(311.14)-78(343.59)*/
+
+load_file("preload_files.hoc")
+
+cvode.active(0)
+dt=0.19
+tstop=45
+
+objectvar b, ampa, nmda, gabaa, gabab
+
+objref stim_gaba, stim_glut
+
+objref savdata, recv 
+
+recv=new Vector()
+recv.record(&soma.v(0))
+
+access soma
+	distance()
+	
+	stim_gaba = new NetStim(0.5)
+	stim_gaba.number=1
+	stim_glut = new NetStim(0.5)
+	stim_glut.number=1
+
+proc step() {	local i
+	fadvance()
+		if(ngraph!=0) {
+			for i=0, ngraph-1{
+				g[i].plot(t)
+				g[i].flush()
+				doNotify()
+			}
+		}
+}
+
+proc run() { local j
+	init()
+	if(ngraph!=0) {
+		for j=0, ngraph-1{
+				g[j].begin()
+		}
+	}	
+	while(t<tstop) {		
+	step()}	
+}
+
+/* tuning_gaba(target, init, precision)*/
+
+//addgraph("soma.v(0)", -75, -55)
+func tuning_gaba(){ local gg
+	
+	gg=0
+	tuned=0
+	offset=0
+	beacon=0
+	stim_gaba.start=10
+	stim_glut.start=1000
+//	g[0].erase()					      		
+					gabaa.gmax = $2  // initial gabaa conductance value	  
+  while (!tuned) {
+  				beacon=beacon+1
+      		gabab.gmax=gabaa.gmax*gabab_gabaa_ratio      		                 
+    			run()	
+    			I=recv.c.min()-Vrest
+    			if(abs(I-$1)<$3){    			 		
+						gg = gabaa.gmax
+						tuned=1
+						print "	Tuned! ", "IPSP =", I, "gabaa.gmax = ", gabaa.gmax
+						
+					} else{
+						gabaa.gmax = ($1-offset)/(I-offset)*gabaa.gmax	
+					}	
+					if(beacon>20){ 
+					print "Error!"
+					break
+					}
+	}
+	return gg
+}
+
+func tuning_ampa(){	local gg
+	gg=0
+	tuned=0
+	offset=0
+	beacon=0
+	stim_gaba.start=1000
+	stim_glut.start=10
+//	g[0].erase()			      		
+					ampa.gmax = $2  // initial gabaa conductance value	  
+  while (!tuned) {
+  				beacon=beacon+1
+      		nmda.gmax = ampa.gmax*nmda_ampa_ratio   		                 
+    			run()	
+    			E=recv.c.max()-Vrest
+    			if(abs(E-$1)<$3){    			 		
+						gg = ampa.gmax
+						tuned=1
+						print "	Tuned! ", "EPSP =", E, "ampa.gmax = ", ampa.gmax
+						
+					} else{
+						ampa.gmax = ($1-offset)/(E-offset)*ampa.gmax	
+					}	
+					if(beacon>20){ 
+					print "Error!"
+					break
+					}
+	}
+	return gg
+}
+
+n=11	//dendritic section number used, to be set before expreriment
+
+double sec[n], gaba_gstart[n], gaba_gend[n], ampa_gstart[n], ampa_gend[n]
+
+strdef path
+
+proc set_gmax() { local i, j
+
+	savdata = new File()
+	savdata.wopen(path)
+	ropen("D:/DATA/input_file.dat")
+		 
+	for i=0, n-1{
+	
+			sec[i]=fscan()
+			I_loc = sec[i]
+			E_loc = sec[i]
+						 
+			dend[I_loc] {                                                                
+                                                                                    
+      	print distance(0.5)                                                         
+      	I_dist=distance(0.5)                                                        
+      	                                                                            
+      	gabaa= new GABAa()                                                          
+      	gabab= new GABAb()                                                          
+      	gabaa.loc(0.5)                                                              
+      	gabab.loc(0.5)                                                              
+      	setpointer gabaa.pre, stim_gaba.y	// assign presynaptic compartment         
+      	setpointer gabab.pre, stim_gaba.y                                           
+               
+     }                                                                            
+
+
+		 dend[E_loc] {                                                          
+                                                                              
+      	print distance(0.5)                                                   
+      	E_dist=distance(0.5)                                                  
+          	                                                                  
+      	ampa = new AMPA()                                                     
+      	nmda = new NMDA()                                                     
+      	ampa.loc(0.5)                                                         
+      	nmda.loc(0.5)                                                         
+      	setpointer ampa.pre, stim_glut.y	// assign presynaptic compartment   
+      	setpointer nmda.pre, stim_glut.y				                              
+      	
+			 	if(!Block_NMDA_Flag){
+			 	 		nmda_ampa_ratio = 0.6/(1+E_dist/300)
+			 	}else{
+			 	 		nmda_ampa_ratio = 0.1*0.6/(1+E_dist/300)
+			 	}
+			// 	print "nmda_ampa_ratio = ", nmda_ampa_ratio	
+                                     
+     }	   
+  
+		gaba_gstart[i] = tuning_gaba(-0.1, 0.001, 0.01)
+  	gaba_gend[i] 	 = tuning_gaba(-3.5, 0.01, 0.1)  
+  	ampa_gstart[i] = tuning_ampa(0.2,  0.001, 0.01) 
+  	ampa_gend[i]	 = tuning_ampa(5, 0.005, 0.1)
+
+ } 
+ropen()	
+
+	for i=0, n-1{
+			for j=0, n-1{
+					savdata.printf("%d	%d	", sec[i], sec[j]) 
+					savdata.printf("%-.5f	%-.5f	%-.5f	%-.5f\n", gaba_gstart[i], gaba_gend[i], ampa_gstart[j], ampa_gend[j])
+			}
+	}
+    		                                       
+savdata.close()                                             
+print "Done!\n"                                           
+} 
+
+
+// Result Plot //
+/*
+b = new HBox()
+b.intercept(1)
+
+addgraph("soma.v(0)", -75, -55)
+//addgraph("dend[prox].v(0)", -75, -55)
+//addgraph("dend[dist].v(0)", -75, -55)
+
+b.intercept(0)
+b.map()
+//morph_plot()
+*/
+
+proc Normal(){
+
+		sprint(path, "%s", "D:/DATA/Normal_source.dat")
+		set_gmax()
+}		
+	
+proc Block_Ka(){
+
+		sprint(path, "%s", "D:/DATA/block/Block_Ka_source.dat")
+    gka 	= 0.005*0.1 		                                       
+    gka_dist = 	gka	  	              
+    gka_prox =  gka	
+    set_gmax()
+    
+    gka 	= 0.005 		                                       
+    gka_dist = 	gka	  	              
+    gka_prox =  gka	
+    
+}
+
+proc Block_Ih(){
+
+		sprint(path, "%s", "D:/DATA/block/Block_Ih_source.dat")
+    ghd = 2e-5*0.1				
+    gh_soma	=	ghd
+    gh_end	=	10*ghd
+    set_gmax()
+    
+    ghd = 2e-5				
+    gh_soma	=	ghd
+    gh_end	=	10*ghd
+}
+
+proc Block_Na(){
+
+		sprint(path, "%s", "D:/DATA/block/Block_Na_source.dat")
+   	gna = 0.03*0.1
+	  set_gmax()
+    
+    gna = 0.03
+    
+}
+
+proc Block_Kd(){
+
+		sprint(path, "%s", "D:/DATA/block/Block_Kd_source.dat")
+    gkd = 0.006*0.1  
+    set_gmax()
+    
+    gkd = 0.006 
+}
+
+proc Block_NMDA(){
+
+		sprint(path, "%s", "D:/DATA/block/Block_NMDA_source.dat")
+    Block_NMDA_Flag = 1		
+    set_gmax()
+    
+    Block_NMDA_Flag = 0	
+}
+
+proc Block_GABAb(){
+
+		sprint(path, "%s", "D:/DATA/block/Block_GABAb_source.dat")
+    gabab_gabaa_ratio = 0 
+    set_gmax()
+    
+    gabab_gabaa_ratio = 0.6
+}
+
+proc Block_All(){
+
+		sprint(path, "%s", "D:/DATA/block/Block_All_source.dat")
+		
+		gna = 0.03*0.1
+    
+    gkd = 0.006*0.1 
+    
+    gka 	= 0.005*0.1 		                                       
+    gka_dist = 	gka	  	              
+    gka_prox =  gka	
+    
+    ghd = 2e-5*0.1				
+    gh_soma	=	ghd
+    gh_end	=	10*ghd
+    
+    Block_NMDA_Flag = 1	
+    
+    gabab_gabaa_ratio = 0 
+
+    set_gmax() 
+}
+
+Normal()
+/*
+Block_Ka()
+Block_Ih()
+Block_Na()
+Block_Kd()
+Block_NMDA()
+Block_GABAb()
+Block_All()
+*/
